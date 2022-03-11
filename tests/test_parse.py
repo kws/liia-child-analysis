@@ -1,3 +1,5 @@
+from io import StringIO
+
 from lxml.etree import ElementTree
 
 from wrangling.cincensus.main import degradefile, cleanfile, build_cinrecord
@@ -15,5 +17,12 @@ def test_flatfile(fixtures_path, config):
     cleaned_tree = cleanfile(tree, config)
 
     flatfile = build_cinrecord([cleaned_tree])
-    flatfile.to_csv(fixtures_path / "sample.csv", index=False)
+
+    outfile = StringIO()
+    flatfile.to_csv(outfile, index=False)
+
+    with open(fixtures_path / "sample.csv") as f:
+        sample_file = f.read()
+
+    assert outfile.getvalue() == sample_file
 
