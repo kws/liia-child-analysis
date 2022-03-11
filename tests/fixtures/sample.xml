@@ -29,6 +29,7 @@
                 <Ethnicity>WBRI</Ethnicity>
                 <Disabilities>
                     <Disability>HAND</Disability>
+                    <Disability>HEAR</Disability>
                 </Disabilities>
             </ChildCharacteristics>
             <CINdetails>
@@ -44,6 +45,7 @@
                     <AssessmentAuthorisationDate>1071-07-18</AssessmentAuthorisationDate>
                     <FactorsIdentifiedAtAssessment>
                         <AssessmentFactors>2A</AssessmentFactors>
+                        <AssessmentFactors>2B</AssessmentFactors>
                     </FactorsIdentifiedAtAssessment>
                 </Assessments>
                 <CINPlanDates>
