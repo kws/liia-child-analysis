@@ -23,10 +23,12 @@ def test_add_context_default():
         events.StartElement(tag='a'),
         events.StartElement(tag='b'),
         events.EndElement(tag='b'),
+        events.StartElement(tag='c'),
+        events.EndElement(tag='c'),
         events.EndElement(tag='a'),
     ]))
     stream = [ev.context for ev in stream]
-    assert stream == [('a',), ('a', 'b'), ('a', 'b'), ('a',)]
+    assert stream == [('a',), ('a', 'b'), ('a', 'b'), ('a', 'c'), ('a', 'c'), ('a',)]
 
 
 def test_add_context_existing():
