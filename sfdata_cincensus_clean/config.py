@@ -9,7 +9,7 @@ import wrangling
 
 
 def _get_keys(obj, mapping, prefix: list = None):
-    if not hasattr(obj, 'keys'):
+    if not hasattr(obj, "keys"):
         return mapping
 
     keys = [k for k in obj.keys() if k[0].isupper()]
@@ -17,18 +17,19 @@ def _get_keys(obj, mapping, prefix: list = None):
         if prefix is None:
             mapping_key = key
         else:
-            mapping_key = '/'.join(prefix + [key])
+            mapping_key = "/".join(prefix + [key])
         mapping[mapping_key] = obj[key]
         del obj[key]
-        _get_keys(mapping[mapping_key], mapping, prefix=prefix + [key] if prefix else None)
+        _get_keys(
+            mapping[mapping_key], mapping, prefix=prefix + [key] if prefix else None
+        )
     return mapping
 
 
 class Config(Mapping[str, Any]):
-
     def __init__(self, filename=None):
         if filename is None:
-            self._path = Path(wrangling.__file__).parent / 'config/cin_datamap.yaml'
+            self._path = Path(wrangling.__file__).parent / "config/cin_datamap.yaml"
         else:
             self._path = Path(filename)
 
@@ -50,4 +51,3 @@ class Config(Mapping[str, Any]):
 
     def __len__(self) -> int:
         return self._config.__len__()
-

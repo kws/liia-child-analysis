@@ -7,7 +7,7 @@ from sfdata_stream_parser.filters.generic import streamfilter, pass_event
 from sfdata_cincensus_clean.converters import to_date, to_category
 
 
-@streamfilter(default_args=lambda: {'context': []})
+@streamfilter(default_args=lambda: {"context": []})
 def add_context(event, context: List[str]):
     if isinstance(event, StartElement):
         context.append(event.tag)
@@ -25,21 +25,25 @@ def strip_text(event):
 
 @streamfilter(error_function=pass_event)
 def add_config(event, fields):
-    path = '/'.join(event.context)
+    path = "/".join(event.context)
     field_config = fields.get(path)
     return event.from_event(event, config=field_config)
 
 
-@streamfilter(check=type_check(StartElement), fail_function=pass_event, error_function=pass_event)
+@streamfilter(
+    check=type_check(StartElement), fail_function=pass_event, error_function=pass_event
+)
 def clean_dates(event):
-    date = event.config['date']
+    date = event.config["date"]
     text = to_date(event.text, date)
     return event.from_event(event, text=text)
 
 
-@streamfilter(check=type_check(StartElement), fail_function=pass_event, error_function=pass_event)
+@streamfilter(
+    check=type_check(StartElement), fail_function=pass_event, error_function=pass_event
+)
 def clean_categories(event):
-    category = event.config['category']
+    category = event.config["category"]
     text = to_category(event.text, category)
     return event.from_event(event, text=text)
 
@@ -49,4 +53,3 @@ def clean(stream):
     stream = clean_categories(stream)
     # stream = clean_regex(stream)
     return stream
-
