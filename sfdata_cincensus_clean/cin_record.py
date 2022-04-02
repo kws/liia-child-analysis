@@ -187,18 +187,23 @@ def event_to_records(event: CINEvent) -> Iterator[dict]:
                 {**child, **cin_item, **assessment}, "AssessmentAuthorisationDate"
             )
 
-        for cpp in _maybe_list(cin_item.get("CINPlanDates")):
+        for cin in _maybe_list(cin_item.get("CINPlanDates")):
             yield from cin_event(
-                {**child, **cin_item, **cpp},
-                "CINPlanStartDate",
-                event_name="CPPstartDate",
+                {**child, **cin_item, **cin}, "CINPlanStartDate",
             )
             yield from cin_event(
-                {**child, **cin_item, **cpp}, "CINPlanEndDate", event_name="CPPendDate"
+                {**child, **cin_item, **cin}, "CINPlanEndDate"
             )
 
         for s47 in _maybe_list(cin_item.get("Section47")):
             yield from cin_event({**child, **cin_item, **s47}, "S47ActualStartDate")
+
+        for cpp in _maybe_list(cin_item.get("ChildProtectionPlans")):
+            yield from cin_event({**child, **cin_item, **cpp}, "CPPstartDate")
+            yield from cin_event({**child, **cin_item, **cpp}, "CPPendDate")
+            for cpp_review in _maybe_list(cpp.get("CPPreviewDate")):
+                cpp_review = {"CPPreviewDate": cpp_review}
+                yield from cin_event({**child, **cin_item, **cpp, **cpp_review}, "CPPreviewDate")
 
 
 def export_table(stream, filename):
