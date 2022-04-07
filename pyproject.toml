@@ -10,6 +10,7 @@ pandas = "^1.4.1"
 lxml = "^4.8.0"
 more-itertools = "^8.12.0"
 sfdata-stream-parser = "^0.3.0"
+xmlschema = "^1.10.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.0.1"

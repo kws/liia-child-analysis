@@ -11,7 +11,12 @@ def fixtures_path():
 
 
 @pytest.fixture
-def config():
-    config_file = Path(wrangling.__file__).parent / 'config/cin_datamap.yaml'
+def config_folder():
+    return Path(wrangling.__file__).parent / 'config'
+
+
+@pytest.fixture
+def config(config_folder):
+    config_file = config_folder / 'cin_datamap.yaml'
     with open(config_file) as FILE:
         return yaml.safe_load(FILE)
